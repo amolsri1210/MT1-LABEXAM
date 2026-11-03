@@ -14,7 +14,7 @@ npm install
 npm run start:http
 ```
 
-Routes: `/` (HTML welcome), `/books` (book JSON), `/about` (application info), and `/home` (HTML loaded from `public/index.html` with the `fs` module). Files below `/public/` are also served as static files.
+Routes: `/` (HTML welcome), `/books` (book JSON), `/about` (application info), and `/home` (HTML loaded from `public/index.html` with the `fs` module). `POST /add-book` adds a book using the required JSON fields `id`, `title`, `author`, and `price`; `category` is optional. Files below `/public/` are also served as static files.
 
 ## Run EchoAPI (port 4000)
 
@@ -53,4 +53,4 @@ Set `HTTP_PORT` or `API_PORT` to override the respective default port. The two a
 - Screenshots of both servers and CRUD calls: save in `screenshots/` after capturing locally.
 - GitHub repository: initialize this folder as `MT1-LABEXAM` and push it to the student's own GitHub account.
 
-The source exam prohibits copying another student's implementation; this solution is written for this request. It does not publish a repository or fabricate run screenshots.
+The source exam prohibits copying another student's implementation; this solution is written for this request. Run both apps and capture real screenshots in this folder before final submission.

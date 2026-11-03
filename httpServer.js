@@ -19,9 +19,43 @@ function sendJson(res, status, value) {
   res.end(JSON.stringify(value, null, 2));
 }
 
+async function readJsonBody(req) {
+  let body = '';
+  for await (const chunk of req) {
+    body += chunk;
+    if (body.length > 100_000) throw Object.assign(new Error('Request body too large'), { statusCode: 413 });
+  }
+  try {
+    return JSON.parse(body);
+  } catch {
+    throw Object.assign(new Error('Invalid JSON request body'), { statusCode: 400 });
+  }
+}
+
 const server = http.createServer(async (req, res) => {
   const requestUrl = new URL(req.url ?? '/', `http://${req.headers.host ?? 'localhost'}`);
   const pathname = decodeURIComponent(requestUrl.pathname);
+
+  if (req.method === 'POST' && pathname === '/add-book') {
+    let newBook;
+    try {
+      newBook = await readJsonBody(req);
+    } catch (error) {
+      return sendJson(res, error.statusCode ?? 400, { error: error.message });
+    }
+    if (!newBook || typeof newBook !== 'object' || Array.isArray(newBook)) {
+      return sendJson(res, 400, { error: 'Request body must be a JSON object' });
+    }
+    const { id, title, author, price } = newBook;
+    if (!Number.isInteger(id) || id < 1 || typeof title !== 'string' || !title.trim() ||
+        typeof author !== 'string' || !author.trim() || typeof price !== 'number' || !Number.isFinite(price) || price < 0) {
+      return sendJson(res, 400, { error: 'Required fields: positive integer id, non-empty title and author, and non-negative numeric price' });
+    }
+    if (books.some((book) => book.id === id)) return sendJson(res, 409, { error: 'A book with this id already exists' });
+    const book = { id, title: title.trim(), author: author.trim(), price, category: typeof newBook.category === 'string' && newBook.category.trim() ? newBook.category.trim() : 'Uncategorized' };
+    books.push(book);
+    return sendJson(res, 201, { message: 'Book added successfully', book });
+  }
 
   if (req.method !== 'GET' && req.method !== 'HEAD') {
     return sendJson(res, 405, { error: 'Method not allowed' });
