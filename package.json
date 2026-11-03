@@ -1,0 +1,17 @@
+{
+  "name": "mt1-labexam",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Library book management lab exam: Node HTTP and Express CRUD apps",
+  "scripts": {
+    "start:http": "node httpServer.js",
+    "start:api": "node expressApp.js",
+    "start": "node httpServer.js",
+    "start:both": "node httpServer.js & node expressApp.js",
+    "stop:both": "pkill -f 'node (httpServer|expressApp).js' || true"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}

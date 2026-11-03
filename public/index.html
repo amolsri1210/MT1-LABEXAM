@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Library Book Management</title>
+  <style>
+    :root { color-scheme: light; font: 16px/1.55 system-ui, sans-serif; color: #183044; background: #f1f6f8; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; }
+    main { width: min(680px, calc(100% - 40px)); padding: 36px; box-sizing: border-box; background: white; border-radius: 18px; box-shadow: 0 12px 40px #18304418; }
+    h1 { margin-top: 0; color: #155e75; } a { color: #087e8b; margin-right: 16px; }
+    .links { display: flex; flex-wrap: wrap; gap: 8px; } code { background: #edf5f7; padding: 2px 6px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Library Book Management</h1>
+    <p>This static page is served from disk by the built-in Node.js <code>fs</code> module.</p>
+    <p>The HTTP server and EchoAPI are separate applications, running on ports 3000 and 4000.</p>
+    <div class="links"><a href="/books">Books JSON</a><a href="/about">About this server</a></div>
+  </main>
+</body>
+</html>
